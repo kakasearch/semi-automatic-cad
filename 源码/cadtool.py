@@ -16,6 +16,7 @@ class Ui_cad_tool(object):
     def setupUi(self, cad_tool):
         cad_tool.setObjectName("cad_tool")
         cad_tool.resize(432, 346)
+        cad_tool.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("cad.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         cad_tool.setWindowIcon(icon)

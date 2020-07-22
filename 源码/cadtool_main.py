@@ -333,6 +333,7 @@ if __name__ == '__main__':
         MainWindow = QMainWindow()
         ui = cadtool.Ui_cad_tool()
         ui.setupUi(MainWindow)
+        
         MainWindow.show()
         cad = cad(ui)
         ui.window_btn.clicked.connect(lambda :cad.window())
@@ -344,5 +345,5 @@ if __name__ == '__main__':
         ui.actionexit_2.triggered.connect(lambda :exit())
         #ui.plainTextEdit_5.setPlainText("...")
         sys.exit(app.exec_())
-    except Exception:
-        cad.info(Exception)
+    except Exception as e:
+        cad.info(str(e))
