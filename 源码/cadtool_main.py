@@ -81,23 +81,24 @@ class cad:
             for i in range(len(h_offset)):
                 offset_data_arrary.append(float(h_offset[i]))
             offset_length = max(offset_data_arrary)*3 #线的长度
-            p1 = APoint(start[0],start[1]+self.min_left)#起始点
+            p1 =  APoint(start[0],start[1]+self.min_left)#起始点
+            p1_ = APoint(start[0],start[1]+self.min_left)#起始点
             p2 = APoint(0, self.min_left+start[1]-offset_length)#终点
             self.min_left =p2.y - space #间隔50，便于下次画 
          ###################min_left = p2.y -50 #间隔50，便于下次画 
+            objs = []
             #向下画线
-            obj = self.acad.model.AddLine(p1, p2)
-            if config:
-                target_layer = config['layer']
-                self.set_layer(obj,target_layer['name'],target_layer)
+            objs.append(self.acad.model.AddLine(p1, p2))
             for offset in offset_data_arrary:#右侧偏移
                 p1.x += offset
                 p2.x += offset
-                self.acad.model.AddLine(p1, p2)
-            self.acad.model.AddLine(APoint(0,p2.y), p2) #下边连接
+                objs.append(self.acad.model.AddLine(p1, p2))
+            print(p1_,p1,p2)
+            objs.append(self.acad.model.AddLine(APoint(p1_.x,p2.y), p2)) #下边连接
             if config:
                 target_layer = config['layer']
-                self.set_layer(obj,target_layer['name'],target_layer)
+                for obj in objs:
+                	self.set_layer(obj,target_layer['name'],target_layer)
             self.info('水平偏移'+str(offset_data_arrary))
 
         if ['0'] != v_offset: #画竖直偏移线
@@ -113,17 +114,16 @@ class cad:
                 p1 =APoint(0,min_left)
                 p2 = APoint(offset_length,min_left)
             #向右画线
-            self.acad.model.AddLine(p1, p2)
-            if config:
-                target_layer = config['layer']
-                self.set_layer(obj,target_layer['name'],target_layer)
+            objs = []
+            objs.append(self.acad.model.AddLine(p1, p2))
             for offset in offset_data_arrary:#上侧偏移
                 p1.y += offset
                 p2.y += offset
-                self.acad.model.AddLine(p1, p2)
+                objs.append(self.acad.model.AddLine(p1, p2))
             if config:
                 target_layer = config['layer']
-                self.set_layer(obj,target_layer['name'],target_layer)
+                for obj in objs:
+                	self.set_layer(obj,target_layer['name'],target_layer)
             self.info('垂直偏移'+str(offset_data_arrary))
     def cad_pl(self,arr):
        
